@@ -111,11 +111,13 @@ if sum(~(cond1data.freq == cond2data.freq)) > 0
     error('Frequency bins of conditions are not identical!');
 end
 
-frange = find(abs(cond1data.freq-foi(1)) == min(abs(cond1data.freq-foi(1)))):...
-    find(abs(cond1data.freq-foi(end)) == min(abs(cond1data.freq-foi(end))));
-
-[dummy,maxidx] = max(max( cond1data.meanpwr(:,frange)-cond2data.meanpwr(:,frange), [],1));
-fidx = frange(1)-1+maxidx;
+if length(foi) == 1
+    fidx = find(abs(cond1data.freq-foi) == min(abs(cond1data.freq-foi)));
+elseif length(foi) == 2
+    frange = find(cond1data.freq >= foi(1) & cond1data.freq <= foi(2));
+    [dummy,maxidx] = max(max( cond1data.meanpwr(:,frange)-cond2data.meanpwr(:,frange), [],1));
+    fidx = frange(1)-1+maxidx;
+end
 
 %% fieldtrip statistical analysis
 cfg = [];
