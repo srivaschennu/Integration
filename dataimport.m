@@ -8,12 +8,14 @@ if isempty(filenames)
     error('No files found to import!\n');
 end
 
-if length(filenames) > 1
-    error('Expected 1 file. Found %d.',length(filenames));
+mfffiles = filenames(logical(cell2mat({filenames.isdir})));
+if length(mfffiles) > 1
+    error('Expected 1 MFF recording file. Found %d.\n',length(mfffiles));
+else
+    filename = mfffiles.name;
+    fprintf('\nProcessing %s.\n\n', filename);
+    EEG = pop_readegimff(sprintf('%s%s', filepath, filename));
 end
-
-fprintf('\nProcessing %s.\n\n', filenames.name);
-EEG = pop_readegimff(sprintf('%s%s', filepath, filenames.name));
 
 EEG = eeg_checkset(EEG);
 
@@ -53,9 +55,9 @@ end
 hpfreq = 0.5;
 lpfreq = 95;
 fprintf('Low-pass filtering below %.1fHz...\n',lpfreq);
-EEG = pop_eegfilt(EEG, 0, lpfreq);
+EEG = pop_eegfilt(EEG, 0, lpfreq, [], [0], 0, 0, 'fir1', 0);
 fprintf('High-pass filtering above %.1fHz...\n',hpfreq);
-EEG = pop_eegfilt(EEG, hpfreq, 0);
+EEG = pop_eegfilt(EEG, hpfreq, 0, [], [0], 0, 0, 'fir1', 0);
 
 fprintf('Removing line noise at 50Hz.\n');
 EEG = rmlinenoisemt(EEG);
