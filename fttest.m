@@ -157,14 +157,16 @@ cfg.feedback = 'textbar';
 
 stat.diffcond = cond1data.meanpwr(:,fidx) - cond2data.meanpwr(:,fidx);
 stat.chanlocs = chanlocs;
+plotvals = stat.diffcond;
+plotvals(~stat.mask) = 0;
 
 if sum(stat.mask) > 0
     
     %plot spectrum at electrode with larget test statistic
-    [dummy,clustmax] = max(stat.stat(stat.mask));
+    %[dummy,clustmax] = max(stat.stat(stat.mask));
     
     %plot spectrum at electrode with largest signal power
-    %[dummy,clustmax] = max(plotvals(stat.mask));
+    [dummy,clustmax] = max(plotvals(stat.mask));
     
     clustchan = stat.label(stat.mask);
     chanidx = find(strcmp(clustchan{clustmax},stat.label));
@@ -186,8 +188,6 @@ figure('Name',mfilename,'Color','white');
 % set(gcf,'Position',figpos);
 
 % subplot(1,3,1);
-plotvals = stat.diffcond;
-plotvals(~stat.mask) = 0;
 topoplot(plotvals,stat.chanlocs, 'maplimits', 'absmax', 'electrodes','labels','pmask',stat.mask);
 colorbar
 title('Power');
@@ -216,7 +216,7 @@ while true
         xlabel('Frequency (Hz)','FontSize',14);
         ylabel('Amplitude (uV)','FontSize',14);
         
-        title(sprintf('FFT of channel %s', cond1data.label{chanidx}));
+        title(sprintf('Power spectrum of channel %s', cond1data.label{chanidx}));
         box on
         
         if ~isempty(foi)

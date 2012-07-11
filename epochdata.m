@@ -198,6 +198,7 @@ if ischar(basename)
             EEG.icaweights = oldEEG.icaweights;
             EEG.icachansind = oldEEG.icachansind;
             EEG.reject.gcompreject = oldEEG.reject.gcompreject;
+            EEG.rejchan = oldEEG.rejchan;
         end
     end
     fprintf('Saving set %s%s.\n',filepath,EEG.filename);
