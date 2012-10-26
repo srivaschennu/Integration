@@ -160,13 +160,19 @@ stat.chanlocs = chanlocs;
 plotvals = stat.diffcond;
 plotvals(~stat.mask) = 0;
 
+if isfield(stat,'posclusters')
+    for p = 1:length(stat.posclusters)
+        fprintf('Cluster %d: t = %.2f, p = %.3f\n', p, stat.posclusters(p).clusterstat, stat.posclusters(p).prob);
+    end
+end
+
 if sum(stat.mask) > 0
     
     %plot spectrum at electrode with larget test statistic
-    %[dummy,clustmax] = max(stat.stat(stat.mask));
+    [dummy,clustmax] = max(stat.stat(stat.mask));
     
     %plot spectrum at electrode with largest signal power
-    [dummy,clustmax] = max(plotvals(stat.mask));
+    %[dummy,clustmax] = max(plotvals(stat.mask));
     
     clustchan = stat.label(stat.mask);
     chanidx = find(strcmp(clustchan{clustmax},stat.label));
@@ -269,5 +275,18 @@ if exist('padlen','var')
 end
 
 EEG = ft_freqanalysis(cfg,EEG);
+
+% %% added by Damian to normalise power by the two surrounding bins since we should have a peak not a broadband splodge
+% EEGsmooth = EEG.powspctrm;
+% 
+% for fq = 2:size(EEG.powspctrm,3)-1
+%     for fqch = 1:size(EEG.powspctrm,1)
+%         EEGsmooth(fqch,:,fq) = EEG.powspctrm(fqch,:,fq) - mean([EEG.powspctrm(fqch,:,fq-1); EEG.powspctrm(fqch,:,fq+1)]);
+%     end
+% end
+%         
+% EEG.powspctrm = EEGsmooth;
+% %%
+
 %EEG.powspctrm = abs(EEG.fourierspctrm).^2;
 EEG.meanpwr = squeeze(mean(EEG.powspctrm,1));
