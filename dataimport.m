@@ -2,6 +2,8 @@ function dataimport(basename)
 
 loadpaths
 
+chanlocmat = 'GSN-HydroCel-128.mat';
+
 filenames = dir(sprintf('%s%s*', filepath, basename));
 
 if isempty(filenames)
@@ -38,8 +40,17 @@ end
 EEG.event = [EEG.event evtoadd];
 EEG = eeg_checkset(EEG,'eventconsistency');
 
-%Remove excluded channels
+% RENAME 10/20 CHANNELS
+load([chanlocpath chanlocmat]);
+for c = 1:length(idx1020)
+    chanidx = strcmp(sprintf('E%d',idx1020(c)),{EEG.chanlocs.labels});
+    if sum(chanidx) == 1
+        fprintf('Replaced %s with %s.\n',EEG.chanlocs(chanidx).labels,name1020{c});
+        EEG.chanlocs(chanidx).labels = name1020{c};
+    end
+end
 
+%Remove excluded channels
 chanexcl = [1,8,14,17,21,25,32,38,43,44,48,49,56,63,64,68,69,73,74,81,82,88,89,94,95,99,107,113,114,119,120,121,125,126,127,128];
 %chanexcl = [];
 

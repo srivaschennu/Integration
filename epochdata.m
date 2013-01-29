@@ -6,7 +6,7 @@ if ~exist('doica','var') || isempty(doica)
     doica = true;
 end
 
-keepica = true;
+keepica = false;
 
 switch sweepcode
     case 1
@@ -160,9 +160,9 @@ EEG.freqs.i2 = 19.8950;
 
 EEG = pop_rmbase(EEG,[],[2 EEG.pnts]);
 
-% fprintf('Notch Filtering.\n');
-% EEG = pop_eegfilt(EEG,48,52,[],1);
-% EEG = pop_eegfilt(EEG,98,102,[],1);
+fprintf('Notch Filtering.\n');
+EEG = pop_eegfilt(EEG,48,52,[],1);
+%EEG = pop_eegfilt(EEG,98,102,[],1);
 
 EEG = eeg_checkset( EEG );
 
@@ -189,7 +189,9 @@ if ischar(basename)
                 if ismember({EEG.chanlocs(c).labels},{oldEEG.chanlocs.labels})
                     keepchan = [keepchan c];
                 end
+                EEG.chanlocs(c).badchan = 0;
             end
+            rejchan = EEG.chanlocs(setdiff(1:length(EEG.chanlocs),keepchan));
             EEG = pop_select(EEG,'channel',keepchan);
             
             EEG.icaact = oldEEG.icaact;
@@ -198,7 +200,11 @@ if ischar(basename)
             EEG.icaweights = oldEEG.icaweights;
             EEG.icachansind = oldEEG.icachansind;
             EEG.reject.gcompreject = oldEEG.reject.gcompreject;
-            EEG.rejchan = oldEEG.rejchan;
+            if isfield('oldEEG','rejchan')
+                EEG.rejchan = oldEEG.rejchan;
+            else
+                EEG.rejchan = rejchan;
+            end
         end
     end
     fprintf('Saving set %s%s.\n',filepath,EEG.filename);

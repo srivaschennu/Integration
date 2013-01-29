@@ -4,24 +4,27 @@ loadpaths
 
 subjlist = {
     
-'subj03_integration'
-'subj04_integration'
-'subj05_integration'
-'subj06_integration'
-'subj07_integration'
-% 
-% 'p0711_integration'
-% 'p0811_integration'
-% 'p0911_integration'
-% 'p1011_integration'
-% 'p1111_integration'
-% 'p1211_integration'
-% 'p1311_integration'
-% 'p1411_integration'
-% 'p1511_integration'
-% 'p1611_integration'
-% 'p0710V2_integration'
-% 'p0510V2_integration'
+% 'subj03_integration'
+% 'subj04_integration'
+% 'subj05_integration'
+% 'subj06_integration'
+% 'subj07_integration'
+
+'p0711_integration'
+'p0811_integration'
+% 'p0911_integration' %BAD
+'p1011_integration'
+% 'p1111_integration' %BAD
+'p1211_integration'
+'p1311_integration'
+'p1411_integration'
+'p1511_integration'
+'p1611_integration'
+'p0710V2_integration' %NOISY
+'p0510V2_integration'
+
+%RUN EPOCHDATA AND REJARTIFACTS2 ON THESE BEFORE ICA
+
 % 'p1711_integration'
 % 'p1811_integration'
 % 'p1911_integration'
@@ -79,13 +82,27 @@ fig_nr = size(condlist,1)/fig_nc;
 for s = 1:length(subjlist)
     subjname = subjlist{s};
     
-    %EEG = pop_loadset('filepath',filepath,'filename',[subjname '.set']);
+%     EEG = pop_loadset('filepath',filepath,'filename',[subjname '_epochs.set'],'loadmode','info');
+%     channames = sort({EEG.chanlocs.labels});
+%     if exist('oldchannames','var')
+%         if sum(strcmp(oldchannames,channames)) ~= length(channames)
+%             error('%s\n%s\n',cell2str(channames),cell2str(oldchannames));
+%         else
+%             fprintf('%s\n%s\n',cell2str(channames),cell2str(oldchannames));
+%         end
+%     else
+%         oldchannames = channames;
+%     end
     %dataimport(subjname);
-    %epochdata(subjname,1);
-%     rejectic(subjname,[],1);
-    rejartifacts2(subjname,2,3,0);
+
+%     epochdata(subjname,4);
+%     rejartifacts2([subjname '_epochs'],1,4,[],[],1000,500);
+    computeic([subjname '_epochs']);
     
-    %computeic(subjname);
+%     rejectic(subjname,[],1);
+%     rejartifacts2(subjname,2,3,0);
+    
+    
     
 %         figure('Name',mfilename,'Color','white');
 %         figpos = get(gcf,'Position');
@@ -105,7 +122,7 @@ for s = 1:length(subjlist)
 % %         stat{c} = fttest(EEG, condlist(c,[1 2]), condlist{c,3}, [],0);
 %         
 %                 plotvals = stat{c}.diffcond;
-%                 plotvals(~stat{c}.mask) = 0;
+%                 plotvals(~stat{c}.mask) = 0;{rejchan.labels}
 %                 subplot(fig_nr,fig_nc,plotidx);
 %                 topoplot(plotvals,stat{c}.chanlocs, 'maplimits', 'absmax', 'electrodes','on','pmask',stat{c}.mask);
 %                 colorbar
