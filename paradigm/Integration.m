@@ -110,6 +110,8 @@ for b = 1:numblocks
     sweeporder = sweeporder(randperm(length(sweeporder)));
     sweepdata(b,:) = sweeporder;
     
+    NetStation('Synchronize');
+    pause(1);
     %start recording
     NetStation('StartRecording');
     pause(1);
