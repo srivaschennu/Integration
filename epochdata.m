@@ -160,7 +160,7 @@ EEG.freqs.i2 = 19.8950;
 
 EEG = pop_rmbase(EEG,[],[2 EEG.pnts]);
 
-fprintf('Notch Filtering.\n');
+%fprintf('Notch Filtering.\n');
 %EEG = pop_eegfilt(EEG,48,52,[],1);
 %EEG = pop_eegfilt(EEG,98,102,[],1);
 
@@ -168,8 +168,8 @@ EEG = eeg_checkset( EEG );
 
 if ischar(basename)
     if doica
-        EEG.setname = [basename '_epochsn'];
-        EEG.filename = [basename '_epochsn.set'];
+        EEG.setname = [basename '_epochs'];
+        EEG.filename = [basename '_epochs.set'];
     else
         EEG.setname = basename;
         EEG.filename = [basename '.set'];
