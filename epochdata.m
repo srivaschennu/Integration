@@ -1,9 +1,13 @@
-function EEG = epochdata(basename,sweepcode,doica)
+function EEG = epochdata(basename,sweepcode,doica,notchfilter)
 
 loadpaths
 
 if ~exist('doica','var') || isempty(doica)
     doica = true;
+end
+
+if ~exist('notchfilter','var') || isempty(notchfilter)
+    notchfilter = false;
 end
 
 keepica = true;
@@ -160,9 +164,11 @@ EEG.freqs.i2 = 19.8950;
 
 EEG = pop_rmbase(EEG,[],[2 EEG.pnts]);
 
-%fprintf('Notch Filtering.\n');
-%EEG = pop_eegfilt(EEG,48,52,[],1);
-%EEG = pop_eegfilt(EEG,98,102,[],1);
+if notchfilter
+    fprintf('Notch Filtering.\n');
+    EEG = pop_eegfilt(EEG,48,52,[],1);
+    EEG = pop_eegfilt(EEG,98,102,[],1);
+end
 
 EEG = eeg_checkset( EEG );
 
