@@ -7,11 +7,11 @@ if PsychPortAudio('GetOpenDeviceCount') == 1
     PsychPortAudio('Close',0);
 end
 
-audiodevices = PsychPortAudio('GetDevices',2);
-outdevice = strcmp('Microsoft Sound Mapper - Output',{audiodevices.DeviceName});
+% audiodevices = PsychPortAudio('GetDevices',2);
+% outdevice = strcmp('Microsoft Sound Mapper - Output',{audiodevices.DeviceName});
 
-% audiodevices = PsychPortAudio('GetDevices',3);
-% outdevice = strcmp('DMX 6Fire USB ASIO Driver',{audiodevices.DeviceName});
+audiodevices = PsychPortAudio('GetDevices',3);
+outdevice = strcmp('DMX 6Fire USB ASIO Driver',{audiodevices.DeviceName});
 
 pahandle = PsychPortAudio('Open',audiodevices(outdevice).DeviceIndex,[],[],fs,2);
 
