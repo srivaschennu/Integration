@@ -70,8 +70,8 @@ EEG = pop_eegfilt(EEG, 0, lpfreq, [], [0], 0, 0, 'fir1', 0);
 fprintf('High-pass filtering above %.1fHz...\n',hpfreq);
 EEG = pop_eegfilt(EEG, hpfreq, 0, [], [0], 0, 0, 'fir1', 0);
 
-fprintf('Removing line noise at 50Hz.\n');
-EEG = rmlinenoisemt(EEG);
+% fprintf('Removing line noise at 50Hz.\n');
+% EEG = rmlinenoisemt(EEG);
 
 
 EEG.setname = sprintf('%s_orig',basename);
