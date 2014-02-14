@@ -66,13 +66,13 @@ end
 hpfreq = 0.5;
 lpfreq = 95;
 fprintf('Low-pass filtering below %.1fHz...\n',lpfreq);
-EEG = pop_eegfilt(EEG, 0, lpfreq, [], [0], 0, 0, 'fir1', 0);
+EEG = pop_eegfiltnew(EEG, 0, lpfreq);
 fprintf('High-pass filtering above %.1fHz...\n',hpfreq);
-EEG = pop_eegfilt(EEG, hpfreq, 0, [], [0], 0, 0, 'fir1', 0);
+EEG = pop_eegfiltnew(EEG, hpfreq, 0);
 
-% fprintf('Removing line noise at 50Hz.\n');
-% EEG = rmlinenoisemt(EEG);
-
+fprintf('Notch Filtering.\n');
+EEG = pop_eegfiltnew(EEG,48,52,[],1);
+EEG = pop_eegfiltnew(EEG,98,102,[],1);
 
 EEG.setname = sprintf('%s_orig',basename);
 EEG.filename = sprintf('%s_orig.set',basename);

@@ -46,7 +46,7 @@ for s = 1:length(subjlist)
     % rereference
     % EEG = rereference(EEG,1);
     
-    EEG = pop_eegfilt(EEG,0,20, [], [0], 0, 0, 'fir1', 0);
+    EEG = pop_eegfiltnew(EEG,0,20);
     EEG = pop_select(EEG,'time',timewin);
     EEG = pop_rmbase(EEG,[timewin(1) 0]*1000);
     
