@@ -70,9 +70,8 @@ EEG = pop_eegfiltnew(EEG, 0, lpfreq);
 fprintf('High-pass filtering above %.1fHz...\n',hpfreq);
 EEG = pop_eegfiltnew(EEG, hpfreq, 0);
 
-fprintf('Notch Filtering.\n');
-EEG = pop_eegfiltnew(EEG,48,52,[],1);
-EEG = pop_eegfiltnew(EEG,98,102,[],1);
+fprintf('Removing line noise...\n');
+EEG = rmlinenoisemt(EEG);
 
 EEG.setname = sprintf('%s_orig',basename);
 EEG.filename = sprintf('%s_orig.set',basename);
