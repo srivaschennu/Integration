@@ -4,24 +4,24 @@ loadpaths
 
 subjlist = {
     
-% 'subj03_integration'
-% 'subj04_integration'
-% 'subj05_integration'
-% 'subj06_integration'
-% 'subj07_integration'
+'subj03_integration'
+'subj04_integration'
+'subj05_integration'
+'subj06_integration'
+'subj07_integration'
 
-'p0711_integration'
-'p0811_integration'
-% 'p0911_integration' %BAD
-'p1011_integration'
-% 'p1111_integration' %BAD
-'p1211_integration'
-'p1311_integration'
-'p1411_integration'
-'p1511_integration'
-'p1611_integration'
-'p0710V2_integration' %NOISY
-'p0510V2_integration'
+% 'p0711_integration'
+% 'p0811_integration'
+% % 'p0911_integration' %BAD
+% 'p1011_integration'
+% % 'p1111_integration' %BAD
+% 'p1211_integration'
+% 'p1311_integration'
+% 'p1411_integration'
+% 'p1511_integration'
+% 'p1611_integration'
+% 'p0710V2_integration' %NOISY
+% 'p0510V2_integration'
 
 %RUN EPOCHDATA AND REJARTIFACTS2 ON THESE BEFORE ICA
 
@@ -82,7 +82,8 @@ fig_nr = size(condlist,1)/fig_nc;
 for s = 1:length(subjlist)
     subjname = subjlist{s};
     
-%     EEG = pop_loadset('filepath',filepath,'filename',[subjname '_epochs.set'],'loadmode','info');
+    EEG = pop_loadset('filepath',filepath,'filename',[subjname '_epochs.set'],'loadmode','info');
+    fprintf('%s %d\n',subjname,EEG.trials);
 %     channames = sort({EEG.chanlocs.labels});
 %     if exist('oldchannames','var')
 %         if sum(strcmp(oldchannames,channames)) ~= length(channames)
@@ -97,7 +98,7 @@ for s = 1:length(subjlist)
 
 %     epochdata(subjname,4);
 %     rejartifacts2([subjname '_epochs'],1,4,[],[],1000,500);
-    computeic([subjname '_epochs']);
+%     computeic([subjname '_epochs']);
     
 %     rejectic(subjname,[],1);
 %     rejartifacts2(subjname,2,3,0);
