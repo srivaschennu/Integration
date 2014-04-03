@@ -4,11 +4,17 @@ loadpaths
 
 subjlist = {
     
-'subj03_integration'
-'subj04_integration'
-'subj05_integration'
-'subj06_integration'
-'subj07_integration'
+% 'subj03_integration'
+% 'subj04_integration'
+% 'subj05_integration'
+% 'subj06_integration'
+% 'subj07_integration'
+'SJ_integration'
+'IC_integration'
+'GR_integration'
+'VN_integration'
+'BMS_integration'
+};
 
 % 'p0711_integration'
 % 'p0811_integration'
@@ -35,7 +41,7 @@ subjlist = {
 % 'p0311V2_integration'
 % 'p0511V2_integration'
 % 'p0112_integration'
-};
+% };
 
 condlist = {
     'e1', 36
@@ -82,8 +88,19 @@ fig_nr = size(condlist,1)/fig_nc;
 for s = 1:length(subjlist)
     subjname = subjlist{s};
     
-    EEG = pop_loadset('filepath',filepath,'filename',[subjname '_epochs.set'],'loadmode','info');
-    fprintf('%s %d\n',subjname,EEG.trials);
+%                 javaaddpath('/Users/chennu/Work/mffimport/MFF-1.0.d0004.jar');
+%                 filenames = dir(sprintf('%s%s*', filepath, subjname));
+%                 mfffiles = filenames(logical(cell2mat({filenames.isdir})));
+%                 filename = mfffiles.name;
+%     
+%                 fprintf('Reading information from %s%s.\n',filepath,filename);
+%                 mffinfo = read_mff_info([filepath filename]);
+%                 mffdate = sscanf(mffinfo.date,'%d-%d-%d');
+%                 fprintf('%s: %02d/%02d/%04d\n',subjname,mffdate(3),mffdate(2),mffdate(1));
+%                 subjinfo = read_mff_subj([filepath filename])
+
+% EEG = pop_loadset('filepath',filepath,'filename',[subjname '_epochs.set'],'loadmode','info');
+%     fprintf('%s %d\n',subjname,EEG.trials);
 %     channames = sort({EEG.chanlocs.labels});
 %     if exist('oldchannames','var')
 %         if sum(strcmp(oldchannames,channames)) ~= length(channames)
@@ -94,11 +111,12 @@ for s = 1:length(subjlist)
 %     else
 %         oldchannames = channames;
 %     end
-    %dataimport(subjname);
 
+%     dataimport(subjname);
 %     epochdata(subjname,4);
+    
 %     rejartifacts2([subjname '_epochs'],1,4,[],[],1000,500);
-%     computeic([subjname '_epochs']);
+    computeic([subjname '_epochs']);
     
 %     rejectic(subjname,[],1);
 %     rejartifacts2(subjname,2,3,0);
