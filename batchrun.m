@@ -116,10 +116,14 @@ for s = 1:length(subjlist)
 %     epochdata(subjname,4);
     
 %     rejartifacts2([subjname '_epochs'],1,4,[],[],1000,500);
-    computeic([subjname '_epochs']);
+%     computeic([subjname '_epochs']);
     
-%     rejectic(subjname,[],1);
-%     rejartifacts2(subjname,2,3,0);
+%     epochdata(subjname,1);
+%     rejectic(subjname);
+plotcomp(subjname,'i1i2',[15 17]);
+plotcomp(subjname,'i1i2',[19 21]);
+
+%     rejartifacts2(subjname,2,3);
     
     
     
