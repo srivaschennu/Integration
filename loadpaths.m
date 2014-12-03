@@ -1,14 +1,2 @@
-function loadpaths
-
-[~, hostname] = system('hostname');
-
-if strncmpi(hostname,'hsbpc58',length('hsbpc58'))
-    assignin('caller','filepath','/Users/chennu/Data/Integration/');
-    assignin('caller','chanlocpath','/Users/chennu/Work/EGI/');
-elseif strncmpi(hostname,'hsbpc57',length('hsbpc57'))
-    assignin('caller','filepath','D:\Data\Integration\');
-    assignin('caller','chanlocpath','D:\Work\EGI\');
-else
-    assignin('caller','filepath','');
-    assignin('caller','chanlocpath','');
-end
+filepath = '/Users/chennu/Data/Integration/';
+chanlocpath = '/Users/chennu/Work/EGI/';
